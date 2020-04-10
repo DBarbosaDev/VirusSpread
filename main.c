@@ -8,15 +8,19 @@
 
 #include <stdio.h>
 #include "helpers/utils.c"
-#include "./core/structures/structures.h"
 #include "core/spaceBuilder.h"
 
 int main() {
-    char filename[] = "./data/spaces/E3.bin";
+    char filename[] = "./data/spaces/E1.bin";
     localsSmartList *localsList = buildList(filename);
 
-    for (int i = 0; i <= localsList->length; i++) {
-        printf("%i \n",localsList->array[i].id);
+    for (int i = 0; i < localsList->length; i++) {
+        printf("%i \t",localsList->array[i].id);
+        printf("%i \t",localsList->array[i].capacity);
+        printf("%i \t",localsList->array[i].refLocal[0]);
+        printf("%i \t",localsList->array[i].refLocal[1]);
+        printf("%i \t",localsList->array[i].refLocal[2]);
+        puts("\n");
     }
 
     return 0;

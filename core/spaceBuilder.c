@@ -8,8 +8,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "../core/structures/structures.h"
 #include "spaceBuilder.h"
 
 localsSmartList *buildList(char *filename) {
@@ -20,6 +18,7 @@ localsSmartList *buildList(char *filename) {
 
     getLocalContentFromBinFile(filename, newSmartList);
 
+    newSmartList->length += 1;
     return newSmartList;
 }
 
@@ -38,11 +37,6 @@ void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
 
     while (feof(file) == 0)
     {
-
-        if (listOfLocals == NULL) {
-            return perror("Error Allocating the memory");
-        }
-
         appendToList(currentList, aux, structCounter);
         fread(&aux, sizeof(Local), 1, file);
 
@@ -55,6 +49,9 @@ void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
 void appendToList(localsSmartList *currentList, Local local, int index) {
     if (index != 0){
         currentList->array = realloc(currentList->array, sizeof(Local) * (index+1));
+    }
+    if (currentList->array == NULL) {
+        return perror("Error Allocating the memory");
     }
     currentList->length = index;
     currentList->array[index] = local;
