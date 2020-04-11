@@ -30,14 +30,7 @@ typedef struct localsSmartList {
  *          - A propriedade array contem a info dos locais;
  *          - length contem o tam do array | nr total de locais
 */
-localsSmartList *buildList(char *filename);
-
-/* Função que retira informação dos ficheiros binários
- * @param filename -> nome do ficheiro
- * @param currentList -> ponteiro para a lista principal criada em buildList
- *
-*/
-void getLocalContentFromBinFile(char *filename, localsSmartList *currentList);
+localsSmartList *buildSpaceList(char *filename);
 
 /*
  * Função que adiciona de forma dinâmica ao array da estrutura passada em argumento;
@@ -45,6 +38,13 @@ void getLocalContentFromBinFile(char *filename, localsSmartList *currentList);
  * @param local -> estrutura a inserir ao array da lista principal
  * @param index -> posição atual da leitura do ficheiro (estrutura atual)
 */
-void appendToList(localsSmartList *currentList, Local local, int index);
+void appendLocalToList(localsSmartList *currentList, Local local, int index);
+
+/* Função que retira informação dos ficheiros binários
+ * @param filename -> nome do ficheiro
+ * @param currentList -> ponteiro para a lista principal criada em buildList
+ *
+*/
+void getLocalContentFromBinFile(char *filename, localsSmartList *currentList);
 
 #endif //SPACEBUILDER_H

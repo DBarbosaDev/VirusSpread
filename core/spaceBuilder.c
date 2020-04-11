@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "spaceBuilder.h"
 
-localsSmartList *buildList(char *filename) {
+localsSmartList *buildSpaceList(char *filename) {
     localsSmartList *newSmartList = malloc(sizeof(localsSmartList));
 
     newSmartList->array = malloc(sizeof(Local));
@@ -20,6 +20,17 @@ localsSmartList *buildList(char *filename) {
 
     newSmartList->length += 1;
     return newSmartList;
+}
+
+void appendLocalToList(localsSmartList *currentList, Local local, int index) {
+    if (index != 0){
+        currentList->array = realloc(currentList->array, sizeof(Local) * (index+1));
+    }
+    if (currentList->array == NULL) {
+        return perror("Error Allocating the memory");
+    }
+    currentList->length = index;
+    currentList->array[index] = local;
 }
 
 void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
@@ -37,22 +48,11 @@ void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
 
     while (feof(file) == 0)
     {
-        appendToList(currentList, aux, structCounter);
+        appendLocalToList(currentList, aux, structCounter);
         fread(&aux, sizeof(Local), 1, file);
 
         structCounter++;
     }
 
     fclose(file);
-}
-
-void appendToList(localsSmartList *currentList, Local local, int index) {
-    if (index != 0){
-        currentList->array = realloc(currentList->array, sizeof(Local) * (index+1));
-    }
-    if (currentList->array == NULL) {
-        return perror("Error Allocating the memory");
-    }
-    currentList->length = index;
-    currentList->array[index] = local;
 }

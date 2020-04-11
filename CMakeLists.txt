@@ -3,4 +3,4 @@ project(VirusSpread C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(VirusSpread main.c core/spaceBuilder.c core/spaceBuilder.h core/structures/structures.h)
+add_executable(VirusSpread main.c core/spaceBuilder.c core/spaceBuilder.h core/populationBuilder.c core/populationBuilder.h)
