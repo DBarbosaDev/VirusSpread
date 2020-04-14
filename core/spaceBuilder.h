@@ -38,7 +38,7 @@ localsSmartList *buildSpaceList(char *filename);
  * @param local -> estrutura a inserir ao array da lista principal
  * @param index -> posição atual da leitura do ficheiro (estrutura atual)
 */
-void appendLocalToList(localsSmartList *currentList, Local local, int index);
+void appendLocalToList(localsSmartList *currentList, Local local);
 
 /* Função que retira informação dos ficheiros binários
  * @param filename -> nome do ficheiro

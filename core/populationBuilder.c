@@ -13,53 +13,43 @@
 peopleSmartList *buildPopulationList(char *filename) {
     peopleSmartList *newSmartList = malloc(sizeof(peopleSmartList));
 
-    newSmartList->array = malloc(sizeof(Person));
+    newSmartList->array = malloc(0);
     newSmartList->length = 0;
 
-    getPersonFromFile(filename, newSmartList);
-
-    newSmartList->length += 1;
+    getPersonsFromFile(filename, newSmartList);
 
     return newSmartList;
 }
 
-void appendPersonToList(peopleSmartList *currentList, Person person, int index) {
-    if (index != 0){
-        currentList->array = realloc(currentList->array, sizeof(Person) * (index+1));
-    }
-    if (currentList->array == NULL) {
-        return perror("Error Allocating the memory");
-    }
-    currentList->length = index;
+void appendPersonToList(peopleSmartList *currentList, Person person) {
+    int index = currentList->length;
+
+    currentList->array = realloc(currentList->array, sizeof(Person)*(index+1));
+    if (currentList->array == NULL) return perror("Erro na alocacao de memoria");
+
     currentList->array[index] = person;
+    currentList->length = index + 1;
 }
 
-
-void getPersonFromFile(char *filename, peopleSmartList *currentList) {
+void getPersonsFromFile(char *filename, peopleSmartList *currentList) {
     FILE *file;
-    Person *listOfPersons = currentList->array, aux;
-
-    int personCounter = 0;
+    Person person;
 
     file = fopen(filename, "r");
-    if (file == NULL) {
-        return perror("File doesn\'t exist");
-    }
+    if (file == NULL) return perror("File doesn\'t exist");
 
     while (feof(file) == 0)
     {
-        fscanf(file, " %s ", aux.name);
-        fscanf(file, " %i ", &aux.age);
-        fscanf(file, " %s ", aux.state);
+        fscanf(file, " %s ", person.name);
+        fscanf(file, " %i ", &person.age);
+        fscanf(file, " %s ", person.state);
 
-        aux.sickedDays = -1;
+        person.sickedDays = -1;
 
-        if(aux.state[0] == 'D')
-            fscanf(file, " %i ", &aux.sickedDays);
+        if(person.state[0] == 'D')
+            fscanf(file, " %i ", &person.sickedDays);
 
-        appendPersonToList(currentList, aux, personCounter);
-
-        personCounter++;
+        appendPersonToList(currentList, person);
     }
 
     fclose(file);

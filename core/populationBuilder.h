@@ -22,7 +22,7 @@ typedef struct peopleSmartList {
 
 peopleSmartList *buildPopulationList(char *filename);
 
-void appendToList(peopleSmartList *currentList, Person person, int index);
-void getPersonFromFile(char *filename, peopleSmartList *currentList);
+void appendPersonToList(peopleSmartList *currentList, Person person);
+void getPersonsFromFile(char *filename, peopleSmartList *currentList);
 
 #endif //POPULATIONBUILDER_H

@@ -13,7 +13,7 @@
 
 int main() {
     char *spaceFile = "./data/spaces/E1.bin";
-    char *peopleFile = "./data/people/pessoasB.txt";
+    char *peopleFile = "./data/people/pessoasA.txt";
 
     localsSmartList *spaceDataStruct = buildSpaceList(spaceFile);
     peopleSmartList *peopleDataStruct = buildPopulationList(peopleFile);
@@ -26,6 +26,7 @@ int main() {
         printf("%i \t",spaceDataStruct->array[i].refLocal[2]);
         puts("\n");
     }
+    printf("%i \t\n",spaceDataStruct->length);
 
     for (int ii = 0; ii < peopleDataStruct->length; ii++) {
         printf("%s \t",peopleDataStruct->array[ii].name);
@@ -34,8 +35,7 @@ int main() {
         printf("%i \t",peopleDataStruct->array[ii].sickedDays);
         puts("\n");
     }
-
-    printf("%i\n", peopleDataStruct->length);
+    printf("%i \t\n",peopleDataStruct->length);
 
     return 0;
 }

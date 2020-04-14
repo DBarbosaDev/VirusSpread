@@ -13,46 +13,34 @@
 localsSmartList *buildSpaceList(char *filename) {
     localsSmartList *newSmartList = malloc(sizeof(localsSmartList));
 
-    newSmartList->array = malloc(sizeof(Local));
+    newSmartList->array = malloc(0);
     newSmartList->length = 0;
 
     getLocalContentFromBinFile(filename, newSmartList);
 
-    newSmartList->length += 1;
     return newSmartList;
 }
 
-void appendLocalToList(localsSmartList *currentList, Local local, int index) {
-    if (index != 0){
-        currentList->array = realloc(currentList->array, sizeof(Local) * (index+1));
-    }
-    if (currentList->array == NULL) {
-        return perror("Error Allocating the memory");
-    }
-    currentList->length = index;
+void appendLocalToList(localsSmartList *currentList, Local local) {
+    int index = currentList->length;
+
+    currentList->array = realloc(currentList->array, sizeof(Local)*(index+1));
+    if (currentList->array == NULL) return perror("Erro na alocacao de memoria");
+
     currentList->array[index] = local;
+    currentList->length = index + 1;
 }
 
 void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
     FILE *file;
-    Local *listOfLocals = currentList->array, aux;
-
-    int structCounter = 0;
+    Local local;
 
     file = fopen(filename, "rb");
-    if (file == NULL) {
-        return perror("File doesn\'t exist");
-    }
+    if (file == NULL) return perror("File doesn\'t exist");
 
-    fread(&aux, sizeof(Local), 1, file);
-
-    while (feof(file) == 0)
-    {
-        appendLocalToList(currentList, aux, structCounter);
-        fread(&aux, sizeof(Local), 1, file);
-
-        structCounter++;
-    }
+    //fread retorna 1 sempre que o ficheiro contem informação para ler
+    while (fread(&local, sizeof(Local), 1, file) == 1)
+        appendLocalToList(currentList, local);
 
     fclose(file);
 }
