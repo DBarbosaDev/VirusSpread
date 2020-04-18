@@ -8,8 +8,8 @@
 
 #include <stdio.h>
 #include "helpers/utils.c"
-#include "core/spaceBuilder.h"
-#include "core/populationBuilder.h"
+#include "core/builders/spaceBuilder.h"
+#include "core/builders/populationBuilder.h"
 
 int main() {
     char *spaceFile = "./data/spaces/E1.bin";
