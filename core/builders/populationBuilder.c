@@ -40,12 +40,13 @@ void getPersonsFromFile(char *filename, peopleSmartList *currentList) {
 
     while (feof(file) == 0)
     {
+        person.id = currentList->length + 1;
         fscanf(file, " %s ", person.name);
         fscanf(file, " %i ", &person.age);
         fscanf(file, " %s ", person.state);
+        person.vitalModel = getPersonVitalModel(person.age);
 
         person.sickedDays = -1;
-
         if(person.state[0] == 'D')
             fscanf(file, " %i ", &person.sickedDays);
 

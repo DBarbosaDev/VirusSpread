@@ -18,8 +18,9 @@ typedef struct Local  {
     int capacity;
     int refLocal[3];
 } Local;
+
 typedef struct localsSmartList {
-    struct Local *array;
+    Local *array;
     int length;
 } localsSmartList;
 

@@ -9,14 +9,19 @@
 #ifndef POPULATIONBUILDER_H
 #define POPULATIONBUILDER_H
 
+#include "../models/personVitalModel.h"
+
 typedef struct Person {
+    int id;
     char name[100];
     int age;
     char state[1];
     int sickedDays;
+    Vital_Model vitalModel;
 } Person;
+
 typedef struct peopleSmartList {
-    struct Person *array;
+    Person *array;
     int length;
 } peopleSmartList;
 

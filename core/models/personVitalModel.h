@@ -20,13 +20,13 @@ typedef struct Vital_Model {
     *   @formula: (idade/10) + 5
     *   @nota: (idade/10) -> arredondado por defeito
     */
-    int maxDurationOfInfection;
+    int maxDurationOfInfectionInDays;
 
     /* Taxa de uma pessoa ficar imune após recuperação */
     int immunityRate;
 
 } Vital_Model;
 
-Vital_Model* getPersonVitalModel(int age);
+Vital_Model getPersonVitalModel(int age);
 
 #endif //PERSONMODEL_H

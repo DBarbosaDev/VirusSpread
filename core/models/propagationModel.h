@@ -15,11 +15,8 @@ typedef struct Propagation_Model {
     *   @Nota -> Valor arredondado por defeito
     */
     int spreadRate;
-
 } Propagation_Model;
 
-Propagation_Model* initPropagationModel();
-
-
+Propagation_Model initPropagationModel();
 
 #endif //PROPAGATIONMODEL_H

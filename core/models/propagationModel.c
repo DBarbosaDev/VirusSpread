@@ -10,10 +10,10 @@
 #include <stdlib.h>
 #include "propagationModel.h"
 
-Propagation_Model* initPropagationModel() {
-    Propagation_Model* model = malloc(sizeof(Propagation_Model));
+Propagation_Model initPropagationModel() {
+    Propagation_Model model;
 
-    model->spreadRate = 5;
+    model.spreadRate = 5;
 
     return model;
 }
