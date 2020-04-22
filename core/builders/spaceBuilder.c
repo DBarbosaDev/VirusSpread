@@ -36,7 +36,7 @@ void getLocalContentFromBinFile(char *filename, localsSmartList *currentList) {
     Local local;
 
     file = fopen(filename, "rb");
-    if (file == NULL) return perror("File doesn\'t exist");
+    if (file == NULL) return perror("O ficheiro binario nao existe");
 
     //fread retorna 1 sempre que o ficheiro contem informação para ler
     while (fread(&local, sizeof(Local), 1, file) == 1)

@@ -36,7 +36,7 @@ void getPersonsFromFile(char *filename, peopleSmartList *currentList) {
     Person person;
 
     file = fopen(filename, "r");
-    if (file == NULL) return perror("File doesn\'t exist");
+    if (file == NULL) return perror("O ficheiro de texto nao existe");
 
     while (feof(file) == 0)
     {
