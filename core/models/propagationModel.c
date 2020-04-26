@@ -11,41 +11,46 @@
 #include "../../helpers/utils.h"
 #include "propagationModel.h"
 
-Propagation_Model *initPropagationModel(char *spaceFile, char *peopleFile) {
-    localsSmartList *spaceDataStruct = buildSpaceList(spaceFile);
-    peopleSmartList *peopleDataStruct = buildPopulationList(peopleFile);
+Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename) {
+    Propagation_Model propagationModel;
 
-    /* for (int i = 0; i < spaceDataStruct->length; i++) {
-        printf("%i \t",spaceDataStruct->array[i].id);
-        printf("%i \t",spaceDataStruct->array[i].capacity);
-        printf("%i \t",spaceDataStruct->array[i].refLocal[0]);
-        printf("%i \t",spaceDataStruct->array[i].refLocal[1]);
-        printf("%i \t",spaceDataStruct->array[i].refLocal[2]);
+    Space *spaceDataStruct = buildSpaceList(spaceFilename);
+    peopleSmartList *peopleDataStruct = buildPopulationList(peopleFilename);
 
-        puts("\n");
-    }
+    propagationModel.spaceList = spaceDataStruct;
+    propagationModel.populationList = peopleDataStruct;
+    propagationModel.spreadRate = 5;
 
-    for (int ii = 0; ii < peopleDataStruct->length; ii++) {
-        printf("%i \t",peopleDataStruct->array[ii].id);
-        printf("%s \t",peopleDataStruct->array[ii].name);
-        printf("%i \t",peopleDataStruct->array[ii].age);
-        printf("%s \t",peopleDataStruct->array[ii].state);
-        printf("%i \t",peopleDataStruct->array[ii].sickedDays);
+    buildPropagationModel(spaceDataStruct, peopleDataStruct);
 
-        printf("--> %f \t",peopleDataStruct->array[ii].vitalModel.probabilityOfRecovery);
-        printf("--> %i \t",peopleDataStruct->array[ii].vitalModel.maxDurationOfInfectionInDays);
-        printf("--> %i \t",peopleDataStruct->array[ii].vitalModel.immunityRate);
-        puts("\n");
-    } */
-
-    return getPropagationModel(spaceDataStruct, peopleDataStruct);
+    return propagationModel;
 }
 
-Propagation_Model *getPropagationModel(localsSmartList *listOfLocals, peopleSmartList *listOfPersons) {
-    Propagation_Model *model = malloc(sizeof(Propagation_Model));
-    Local *randLocal;
+int makeConnection(localsSmartList *smartList, Person *person) {
+    if (smartList->sizeOfConnections == smartList->local.capacity) {
+        printf("Capacidade maxima atingida no local %i: Fica de fora o/a %s \n", smartList->local.id, person->name);
+        return 0;
+    }
+    smartList->connections = realloc(smartList->connections, sizeof(Person) * (smartList->sizeOfConnections + 1));
+    smartList->connections[smartList->sizeOfConnections].person = person;
 
-    model->conections = malloc(0);
+    smartList->sizeOfConnections ++;
+
+    printf("=== |%s| adicionada ao local |%i| === \n", person->name, smartList->local.id);
+
+    return 1;
+}
+
+int buildPropagationModel(Space *space,  peopleSmartList *listOfPersons) {
+    localsSmartList *randLocal;
+
+    for (int i = 0; i < listOfPersons->length; i++) {
+        randLocal = space->localsSmartList + intUniformRnd(1, space->length) - 1;
+        makeConnection(randLocal, listOfPersons->array + i);
+    }
+
+    return 1;
+    /* model->conections = malloc(0);
     model->spreadRate = 5;
 
     for (int i = 0; i < listOfPersons->length; i++) {
@@ -54,9 +59,14 @@ Propagation_Model *getPropagationModel(localsSmartList *listOfLocals, peopleSmar
 
         model->conections[i].person = listOfPersons->array + i;
         model->conections[i].local = randLocal;
+
+        // validação aqui
+        randLocal->capacity -= 1;
     }
 
-    model->sizeOfConnections = listOfPersons->length;
+    model->sizeOfConnections = listOfPersons->length;*/
 
-    return model;
 }
+
+
+

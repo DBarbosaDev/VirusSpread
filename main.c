@@ -8,21 +8,53 @@
 
 #include <stdio.h>
 #include "helpers/utils.c"
-#include "core/builders/spaceBuilder.h"
-#include "core/builders/populationBuilder.h"
 #include "core/models/propagationModel.h"
 
 int main() {
     initRandom();
-    char *spaceFile = "./data/spaces/E3.bin";
+
+    char *spaceFile = "./data/spaces/E1.bin";
     char *peopleFile = "./data/people/pessoasA.txt";
 
-    Propagation_Model *propagationModel = initPropagationModel(spaceFile, peopleFile);
-
-    for (int i = 0; i < propagationModel->sizeOfConnections; i++) {
-        printf("%i \t", propagationModel->conections[i].local->id);
-        printf("%s \n", propagationModel->conections[i].person->name);
-    }
+    Propagation_Model propagationModel = initPropagationModel(spaceFile, peopleFile);
 
     return 0;
 }
+
+/*
+    puts("------------------------------- \n");
+    for (int i = 0; i < propagationModel.spaceList->length; i++) {
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.id);
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.capacity);
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.refLocal[0]);
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.refLocal[1]);
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.refLocal[2]);
+
+        puts("\n");
+    }
+    puts("------------------------------- \n Relations \n");
+
+    for (int i = 0; i < propagationModel.spaceList->length; i++) {
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.id);
+        printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.capacity);
+        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].sizeOfConnections ; ++j) {
+            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].connections[j].person->name, propagationModel.spaceList->localsSmartList[i].connections[j].person->age);
+        }
+        puts("\n");
+    }
+
+    puts("------------------------------- \n");
+    for (int ii = 0; ii < propagationModel.populationList->length; ii++) {
+        printf("%i \t",propagationModel.populationList->array[ii].id);
+        printf("%s \t",propagationModel.populationList->array[ii].name);
+        printf("%i \t",propagationModel.populationList->array[ii].age);
+        printf("%s \t",propagationModel.populationList->array[ii].state);
+        printf("%i \t",propagationModel.populationList->array[ii].sickedDays);
+
+        printf("--> %f \t",propagationModel.populationList->array[ii].vitalModel.probabilityOfRecovery);
+        printf("--> %i \t",propagationModel.populationList->array[ii].vitalModel.maxDurationOfInfectionInDays);
+        printf("--> %i \t",propagationModel.populationList->array[ii].vitalModel.immunityRate);
+        puts("\n");
+    }
+    puts("------------------------------- \n");
+ */
