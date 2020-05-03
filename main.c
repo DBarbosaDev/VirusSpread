@@ -14,15 +14,14 @@ int main() {
     initRandom();
 
     char *spaceFile = "./data/spaces/E1.bin";
-    char *peopleFile = "./data/people/pessoasA.txt";
+    char *peopleFile = "./data/people/pessoasC.txt";
 
     Propagation_Model propagationModel = initPropagationModel(spaceFile, peopleFile);
 
-    return 0;
 }
 
 /*
-    puts("------------------------------- \n");
+   puts("------------------------------- \n");
     for (int i = 0; i < propagationModel.spaceList->length; i++) {
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.id);
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.capacity);
@@ -37,8 +36,13 @@ int main() {
     for (int i = 0; i < propagationModel.spaceList->length; i++) {
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.id);
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.capacity);
-        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].sizeOfConnections ; ++j) {
-            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].connections[j].person->name, propagationModel.spaceList->localsSmartList[i].connections[j].person->age);
+        puts("\n## Healthy ##\n");
+        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfHealthyPersons ; ++j) {
+            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfHealthyPersons[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfHealthyPersons[j].person->age);
+        }
+        puts("\n## Infected ##\n");
+        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfInfectedPersons ; ++j) {
+            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfInfectedPersons[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfInfectedPersons[j].person->age);
         }
         puts("\n");
     }
@@ -57,4 +61,6 @@ int main() {
         puts("\n");
     }
     puts("------------------------------- \n");
+
+    return 0;
  */

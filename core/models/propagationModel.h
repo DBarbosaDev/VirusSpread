@@ -9,17 +9,20 @@
 #ifndef PROPAGATIONMODEL_H
 #define PROPAGATIONMODEL_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "../builders/populationBuilder.h"
 #include "../builders/spaceBuilder.h"
+#include "../../helpers/utils.h"
 
 typedef struct {
     Space *spaceList;
-    peopleSmartList *populationList;
+    Population *populationList;
     int spreadRate;
 } Propagation_Model;
 
 Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename);
 int makeConnection(localsSmartList *smartList, Person *person);
-int buildPropagationModel(Space *space,  peopleSmartList *listOfPersons);
+int buildPropagationModel(Space *space,  Population *listOfPersons);
 
 #endif //PROPAGATIONMODEL_H

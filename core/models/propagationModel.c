@@ -6,16 +6,14 @@
  * @Number 2018012425
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "../../helpers/utils.h"
 #include "propagationModel.h"
 
 Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename) {
     Propagation_Model propagationModel;
+    messageWithDelay("%%%% Construcao do modelo da simulacao iniciada %%%% \n\n");
 
     Space *spaceDataStruct = buildSpaceList(spaceFilename);
-    peopleSmartList *peopleDataStruct = buildPopulationList(peopleFilename);
+    Population *peopleDataStruct = buildPopulationList(peopleFilename);
 
     propagationModel.spaceList = spaceDataStruct;
     propagationModel.populationList = peopleDataStruct;
@@ -23,50 +21,37 @@ Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename
 
     buildPropagationModel(spaceDataStruct, peopleDataStruct);
 
+    messageWithDelay("%%%% Preparacao da simulacao finalizada com sucesso %%%% \n\n");
     return propagationModel;
 }
 
 int makeConnection(localsSmartList *smartList, Person *person) {
-    if (smartList->sizeOfConnections == smartList->local.capacity) {
-        printf("Capacidade maxima atingida no local %i: Fica de fora o/a %s \n", smartList->local.id, person->name);
-        return 0;
+    if (smartList->numberOfPersons == smartList->local.capacity) return 0;
+
+    if (person->state[0] == 'D') {
+        smartList->listOfInfectedPersons = realloc(smartList->listOfInfectedPersons, sizeof(Person) * (smartList->numberOfInfectedPersons + 1));
+        smartList->listOfInfectedPersons[smartList->numberOfInfectedPersons].person = person;
+        smartList->numberOfInfectedPersons ++;
+    } else {
+        smartList->listOfHealthyPersons = realloc(smartList->listOfHealthyPersons, sizeof(Person) * (smartList->numberOfHealthyPersons + 1));
+        smartList->listOfHealthyPersons[smartList->numberOfHealthyPersons].person = person;
+        smartList->numberOfHealthyPersons ++;
     }
-    smartList->connections = realloc(smartList->connections, sizeof(Person) * (smartList->sizeOfConnections + 1));
-    smartList->connections[smartList->sizeOfConnections].person = person;
 
-    smartList->sizeOfConnections ++;
-
-    printf("=== |%s| adicionada ao local |%i| === \n", person->name, smartList->local.id);
+    smartList->numberOfPersons ++;
 
     return 1;
 }
 
-int buildPropagationModel(Space *space,  peopleSmartList *listOfPersons) {
+int buildPropagationModel(Space *space,  Population *listOfPersons) {
     localsSmartList *randLocal;
+    messageWithDelay("A distribuir pessoas pelos locais... \n");
 
     for (int i = 0; i < listOfPersons->length; i++) {
         randLocal = space->localsSmartList + intUniformRnd(1, space->length) - 1;
         makeConnection(randLocal, listOfPersons->array + i);
     }
 
+    messageWithDelay("Pessoas distribuidas com sucesso! \n");
     return 1;
-    /* model->conections = malloc(0);
-    model->spreadRate = 5;
-
-    for (int i = 0; i < listOfPersons->length; i++) {
-        model->conections = realloc(model->conections, sizeof(Connections) * (i + 1));
-        randLocal = listOfLocals->array + intUniformRnd(1, listOfLocals->length) - 1;
-
-        model->conections[i].person = listOfPersons->array + i;
-        model->conections[i].local = randLocal;
-
-        // validação aqui
-        randLocal->capacity -= 1;
-    }
-
-    model->sizeOfConnections = listOfPersons->length;*/
-
 }
-
-
-

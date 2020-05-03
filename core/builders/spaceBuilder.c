@@ -6,18 +6,18 @@
  * @Number 2018012425
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "spaceBuilder.h"
 
 Space *buildSpaceList(char *filename) {
     Space *newSpace = malloc(sizeof(Space));
+    messageWithDelay("=== A iniciar a construcao do Espaco... ===\n");
 
     newSpace->localsSmartList = malloc(0);
     newSpace->length = 0;
 
     getLocalContentFromBinFile(filename, newSpace);
 
+    messageWithDelay("=== Construcao finalizada com sucesso! ===\n\n");
     return newSpace;
 }
 
@@ -28,8 +28,11 @@ void appendLocalToList(Space *currentSpace, Local local) {
     if (currentSpace->localsSmartList == NULL) return perror("Erro na alocacao de memoria");
 
     currentSpace->localsSmartList[index].local = local;
-    currentSpace->localsSmartList[index].connections = malloc(0);
-    currentSpace->localsSmartList[index].sizeOfConnections = 0;
+    currentSpace->localsSmartList[index].listOfInfectedPersons = malloc(0);
+    currentSpace->localsSmartList[index].listOfHealthyPersons = malloc(0);
+    currentSpace->localsSmartList[index].numberOfInfectedPersons = 0;
+    currentSpace->localsSmartList[index].numberOfHealthyPersons = 0;
+    currentSpace->localsSmartList[index].numberOfPersons = 0;
 
     currentSpace->length = index + 1;
 }
@@ -37,6 +40,8 @@ void appendLocalToList(Space *currentSpace, Local local) {
 void getLocalContentFromBinFile(char *filename, Space *currentSpace) {
     FILE *file;
     Local local;
+
+    messageWithDelay("A carregar dados do ficheiro...\n");
 
     file = fopen(filename, "rb");
     if (file == NULL) return perror("O ficheiro binario nao existe");
@@ -46,4 +51,6 @@ void getLocalContentFromBinFile(char *filename, Space *currentSpace) {
         appendLocalToList(currentSpace, local);
 
     fclose(file);
+
+    messageWithDelay("Dados carregados com sucesso!\n");
 }

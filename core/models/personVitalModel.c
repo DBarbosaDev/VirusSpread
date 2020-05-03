@@ -6,7 +6,6 @@
  * @Number 2018012425
 */
 
-#include <math.h>
 #include "personVitalModel.h"
 
 Vital_Model getPersonVitalModel(int age) {

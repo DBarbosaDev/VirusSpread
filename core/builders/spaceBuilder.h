@@ -9,7 +9,10 @@
 #ifndef SPACEBUILDER_H
 #define SPACEBUILDER_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "populationBuilder.h"
+#include "../../helpers/feedbackMessages.h"
 
 /* Criação da estrutura de dados
  * -> Local: Estrutura que irá conter a informação necessária de cada local;
@@ -27,8 +30,8 @@ typedef struct {
 
 typedef struct {
     Local local;
-    Connection *connections;
-    int sizeOfConnections;
+    Connection *listOfInfectedPersons, *listOfHealthyPersons;
+    int numberOfInfectedPersons,numberOfHealthyPersons,numberOfPersons;
 } localsSmartList;
 
 typedef struct {

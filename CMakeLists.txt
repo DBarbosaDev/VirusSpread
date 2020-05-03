@@ -13,4 +13,4 @@ add_executable(
         core/models/personVitalModel.h
         core/models/propagationModel.c
         core/models/propagationModel.h
-)
+        helpers/feedbackMessages.c helpers/feedbackMessages.h)

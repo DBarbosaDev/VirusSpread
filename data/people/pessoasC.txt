@@ -1,0 +1,40 @@
+PauloPires1  23  S
+SofiaA  23  S
+Tomas111   12   I
+PauloPires2   67    D   10
+MarcoMarquesAAA   40    I
+Zulmira2A    17 S
+Olivia1     12  S
+SamuelSimoes   56   D   1
+SandraS       56    D   1
+HugoA        20    D  3
+HugoB        25   D   10
+HugoC       14   D    5
+PauloAlves123   34   D   4
+Carlos1     20   D    3
+CarlaCardoso  34   D   7
+SandraMotaA1   24  S 
+PedroPedra   27    S
+DianaD      89    S
+TobiasF    98    S
+LeonardoL  10   S
+PauloPiresPauloPires1  33  S
+SofiaSofiaA  33  S
+TomasTomas111   22   I
+PauloPiresPauloPires2   76    D   10
+MarcoMarquesMarcoMarquesAAA   55    I
+ZulmiraZulmira2A    71 S
+Olivia1Olivia1     15  S
+SamuelSimoesSamuelSimoes   65   D   1
+SandraSandraS       65    D   1
+HugoHugoA        2    D  3
+HugoHugoB        52   D   10
+HugoHugoC       34   D    5
+PauloAlvesPauloAlves123   34   D   4
+CarlosCarlos1     20   D    3
+CarlaCardosoCarlaCardoso  34   D   7
+SandraMotaSandraMotaA1   24  S 
+PedroPedraPedroPedra   27    S
+DianaDianaD      89    S
+TobiasTobiasF    98    S
+LeonardoLeonardoL  10   S

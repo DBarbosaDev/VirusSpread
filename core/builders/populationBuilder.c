@@ -6,22 +6,22 @@
  * @Number 2018012425
 */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "populationBuilder.h"
 
-peopleSmartList *buildPopulationList(char *filename) {
-    peopleSmartList *newSmartList = malloc(sizeof(peopleSmartList));
+Population *buildPopulationList(char *filename) {
+    Population *newSmartList = malloc(sizeof(Population));
+    messageWithDelay("=== A iniciar a construcao da populacao... ===\n");
 
     newSmartList->array = malloc(0);
     newSmartList->length = 0;
 
     getPersonsFromFile(filename, newSmartList);
 
+    messageWithDelay("=== Construcao finalizada com sucesso! ===\n\n");
     return newSmartList;
 }
 
-void appendPersonToList(peopleSmartList *currentList, Person person) {
+void appendPersonToList(Population *currentList, Person person) {
     int index = currentList->length;
 
     currentList->array = realloc(currentList->array, sizeof(Person)*(index+1));
@@ -31,9 +31,11 @@ void appendPersonToList(peopleSmartList *currentList, Person person) {
     currentList->length = index + 1;
 }
 
-void getPersonsFromFile(char *filename, peopleSmartList *currentList) {
+void getPersonsFromFile(char *filename, Population *currentList) {
     FILE *file;
     Person person;
+
+    messageWithDelay("A carregar dados do ficheiro...\n");
 
     file = fopen(filename, "r");
     if (file == NULL) return perror("O ficheiro de texto nao existe");
@@ -54,4 +56,6 @@ void getPersonsFromFile(char *filename, peopleSmartList *currentList) {
     }
 
     fclose(file);
+
+    messageWithDelay("Dados carregados com sucesso!\n");
 }

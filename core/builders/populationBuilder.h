@@ -9,7 +9,10 @@
 #ifndef POPULATIONBUILDER_H
 #define POPULATIONBUILDER_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "../models/personVitalModel.h"
+#include "../../helpers/feedbackMessages.h"
 
 typedef struct Person {
     int id;
@@ -20,14 +23,14 @@ typedef struct Person {
     Vital_Model vitalModel;
 } Person;
 
-typedef struct peopleSmartList {
+typedef struct Population {
     Person *array;
     int length;
-} peopleSmartList;
+} Population;
 
-peopleSmartList *buildPopulationList(char *filename);
+Population *buildPopulationList(char *filename);
 
-void appendPersonToList(peopleSmartList *currentList, Person person);
-void getPersonsFromFile(char *filename, peopleSmartList *currentList);
+void appendPersonToList(Population *currentList, Person person);
+void getPersonsFromFile(char *filename, Population *currentList);
 
 #endif //POPULATIONBUILDER_H

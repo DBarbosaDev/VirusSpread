@@ -10,6 +10,8 @@
 #ifndef PERSONMODEL_H
 #define PERSONMODEL_H
 
+#include <math.h>
+
 typedef struct Vital_Model {
     /* Probabilidade de recuperação em cada iteração
     *   @formula: 1/idade
