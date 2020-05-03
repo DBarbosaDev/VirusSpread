@@ -28,11 +28,11 @@ void appendLocalToList(Space *currentSpace, Local local) {
     if (currentSpace->localsSmartList == NULL) return perror("Erro na alocacao de memoria");
 
     currentSpace->localsSmartList[index].local = local;
-    currentSpace->localsSmartList[index].listOfInfectedPersons = malloc(0);
-    currentSpace->localsSmartList[index].listOfHealthyPersons = malloc(0);
-    currentSpace->localsSmartList[index].numberOfInfectedPersons = 0;
-    currentSpace->localsSmartList[index].numberOfHealthyPersons = 0;
-    currentSpace->localsSmartList[index].numberOfPersons = 0;
+    currentSpace->localsSmartList[index].listOfInfectedPeople = malloc(0);
+    currentSpace->localsSmartList[index].listOfHealthyPeople = malloc(0);
+    currentSpace->localsSmartList[index].numberOfInfectedPeople = 0;
+    currentSpace->localsSmartList[index].numberOfHealthyPeople = 0;
+    currentSpace->localsSmartList[index].numberOfPeople = 0;
 
     currentSpace->length = index + 1;
 }

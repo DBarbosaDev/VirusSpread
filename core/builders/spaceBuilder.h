@@ -30,8 +30,8 @@ typedef struct {
 
 typedef struct {
     Local local;
-    Connection *listOfInfectedPersons, *listOfHealthyPersons;
-    int numberOfInfectedPersons,numberOfHealthyPersons,numberOfPersons;
+    Connection *listOfInfectedPeople, *listOfHealthyPeople;
+    int numberOfInfectedPeople,numberOfHealthyPeople,numberOfPeople;
 } localsSmartList;
 
 typedef struct {

@@ -37,12 +37,12 @@ int main() {
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.id);
         printf("%i \t",propagationModel.spaceList->localsSmartList[i].local.capacity);
         puts("\n## Healthy ##\n");
-        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfHealthyPersons ; ++j) {
-            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfHealthyPersons[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfHealthyPersons[j].person->age);
+        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfHealthyPeople ; ++j) {
+            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfHealthyPeople[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfHealthyPeople[j].person->age);
         }
         puts("\n## Infected ##\n");
-        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfInfectedPersons ; ++j) {
-            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfInfectedPersons[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfInfectedPersons[j].person->age);
+        for (int j = 0; j < propagationModel.spaceList->localsSmartList[i].numberOfInfectedPeople ; ++j) {
+            printf("%s %i \t",propagationModel.spaceList->localsSmartList[i].listOfInfectedPeople[j].person->name, propagationModel.spaceList->localsSmartList[i].listOfInfectedPeople[j].person->age);
         }
         puts("\n");
     }

@@ -26,19 +26,19 @@ Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename
 }
 
 int makeConnection(localsSmartList *smartList, Person *person) {
-    if (smartList->numberOfPersons == smartList->local.capacity) return 0;
+    if (smartList->numberOfPeople == smartList->local.capacity) return 0;
 
     if (person->state[0] == 'D') {
-        smartList->listOfInfectedPersons = realloc(smartList->listOfInfectedPersons, sizeof(Person) * (smartList->numberOfInfectedPersons + 1));
-        smartList->listOfInfectedPersons[smartList->numberOfInfectedPersons].person = person;
-        smartList->numberOfInfectedPersons ++;
+        smartList->listOfInfectedPeople = realloc(smartList->listOfInfectedPeople, sizeof(Person) * (smartList->numberOfInfectedPeople + 1));
+        smartList->listOfInfectedPeople[smartList->numberOfInfectedPeople].person = person;
+        smartList->numberOfInfectedPeople ++;
     } else {
-        smartList->listOfHealthyPersons = realloc(smartList->listOfHealthyPersons, sizeof(Person) * (smartList->numberOfHealthyPersons + 1));
-        smartList->listOfHealthyPersons[smartList->numberOfHealthyPersons].person = person;
-        smartList->numberOfHealthyPersons ++;
+        smartList->listOfHealthyPeople = realloc(smartList->listOfHealthyPeople, sizeof(Person) * (smartList->numberOfHealthyPeople + 1));
+        smartList->listOfHealthyPeople[smartList->numberOfHealthyPeople].person = person;
+        smartList->numberOfHealthyPeople ++;
     }
 
-    smartList->numberOfPersons ++;
+    smartList->numberOfPeople ++;
 
     return 1;
 }
