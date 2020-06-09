@@ -38,7 +38,11 @@ void getPersonsFromFile(char *filename, Population *currentList) {
     messageWithDelay("A carregar dados do ficheiro...\n");
 
     file = fopen(filename, "r");
-    if (file == NULL) return perror("O ficheiro de texto nao existe");
+    if (file == NULL) {
+        perror("O ficheiro da populacao nao existe");
+        currentList = NULL;
+        return;
+    }
 
     while (feof(file) == 0)
     {

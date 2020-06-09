@@ -17,6 +17,6 @@ void delay(float seconds) {
 
 void messageWithDelay(char *text){
     printf("%s", text);
-    delay(0.5);
+    delay(0);
 }
 
