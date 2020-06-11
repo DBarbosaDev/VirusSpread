@@ -13,7 +13,7 @@ Vital_Model getPersonVitalModel(int age) {
 
     vitalDataModel.probabilityOfRecovery = (float) 1/age;
     vitalDataModel.maxDurationOfInfectionInDays = (int) floor(age/10) + 5;
-    vitalDataModel.immunityRate = 20;
+    vitalDataModel.immunityRate = (float) 20/100;
 
     return vitalDataModel;
 }

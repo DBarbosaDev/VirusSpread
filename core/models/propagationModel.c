@@ -55,3 +55,22 @@ int buildPropagationModel(Space *space,  Population *listOfPersons) {
     messageWithDelay("Pessoas distribuidas com sucesso! \n");
     return 1;
 }
+
+void addPersonToTheHealthyList(localsSmartList *smartList, int index) {
+    int positionsToShift = smartList->numberOfInfectedPeople - index - 1;
+    smartList->listOfHealthyPeople = realloc(smartList->listOfHealthyPeople, sizeof(Connection) * smartList->numberOfHealthyPeople + 1);
+    smartList->listOfHealthyPeople[smartList->numberOfHealthyPeople] = smartList->listOfInfectedPeople[index];
+
+    for (int i = 0; i < positionsToShift; i++) {
+        if (i == positionsToShift - 1) break;
+
+        smartList->listOfInfectedPeople[index + i] = smartList->listOfInfectedPeople[index + i + 1];
+    }
+
+    smartList->numberOfInfectedPeople--;
+    smartList->numberOfHealthyPeople++;
+
+    printf("%i\n", smartList->numberOfInfectedPeople);
+
+    smartList->listOfInfectedPeople = realloc(smartList->listOfInfectedPeople, sizeof(Connection) * smartList->numberOfInfectedPeople);
+}

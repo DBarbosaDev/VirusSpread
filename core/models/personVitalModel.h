@@ -25,7 +25,7 @@ typedef struct Vital_Model {
     int maxDurationOfInfectionInDays;
 
     /* Taxa de uma pessoa ficar imune após recuperação */
-    int immunityRate;
+    float immunityRate;
 
 } Vital_Model;
 

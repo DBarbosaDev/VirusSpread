@@ -38,6 +38,7 @@ char simulationMenu(int showMenu) {
         printf("| 3 -> Apresentar estatistica           |\n");
         printf("| 4 -> Adicionar doente                 |\n");
         printf("| 5 -> Transferir pessoa                |\n");
+        printf("| 6 -> Tests(to delete)                 |\n");
         printf("| 0 -> Terminar simulacao               |\n"
                "| ===================================== |\n");
     }
@@ -48,15 +49,62 @@ char simulationMenu(int showMenu) {
     return option;
 }
 
-void makeInteractions(Propagation_Model *propagationModel, int interactions) {
+// TODO verificar o que está a acontecer aqui
+// * Sobra sempre um infetado ao fim de imensas interações. Em certas ocorrências passa a 0
+void managePersonVitalState(Person *person, localsSmartList *local, int index) {
+    if (person->state[0] == 'I' || person->state[0] == 'S') return;
+
+    if (person->sickedDays >= person->vitalModel.maxDurationOfInfectionInDays || probEvento(person->vitalModel.probabilityOfRecovery)) {
+        person->state[0] = 'S';
+        person->sickedDays = -1;
+
+        if (probEvento(person->vitalModel.immunityRate)) person->state[0] = 'I';
+
+        addPersonToTheHealthyList(local, index);
+
+        return;
+    }
+
+    person->sickedDays++;
+}
+
+void makeInteractions(Propagation_Model *propagationModel, int interactions, int *days) {
+    *days += interactions;
+
     while (interactions > 0) {
+
+        for (int i = 0; i < propagationModel->spaceList->length ; i++) {
+            localsSmartList *local = &propagationModel->spaceList->localsSmartList[i];
+
+            for (int ii = 0; ii < local->numberOfInfectedPeople; ii++) {
+                Connection *person = &local->listOfInfectedPeople[ii];
+                managePersonVitalState(person->person, local, ii);
+            }
+
+            for (int ii = 0; ii < local->numberOfHealthyPeople; ii++) {
+
+            }
+        }
 
         interactions--;
     }
 }
 
-void report(Propagation_Model *propagationModel) {
-    puts("------------------------------- \n");
+void report(Propagation_Model *propagationModel, int days) {
+    puts("===== Estado atual da simulacao =====");
+    printf("Dia: %i\n", days);
+
+    for (int i = 0; i < propagationModel->spaceList->length; i++) {
+        localsSmartList local = propagationModel->spaceList->localsSmartList[i];
+        printf("\nO local com ID %i apresenta:\n"
+               "Populacao total:             %i\n"
+               "Numero de pessoas infetadas: %i\n"
+               "Numero de pessoas saudaveis: %i\n",
+               local.local.id, local.numberOfPeople, local.numberOfInfectedPeople, local.numberOfHealthyPeople);
+    }
+    puts("=====================================");
+
+    /*puts("------------------------------- \n");
     for (int i = 0; i < propagationModel->spaceList->length; i++) {
         printf("%i \t",propagationModel->spaceList->localsSmartList[i].local.id);
         printf("%i \t",propagationModel->spaceList->localsSmartList[i].local.capacity);
@@ -92,10 +140,10 @@ void report(Propagation_Model *propagationModel) {
 
         printf("--> %f \t",propagationModel->populationList->array[ii].vitalModel.probabilityOfRecovery);
         printf("--> %i \t",propagationModel->populationList->array[ii].vitalModel.maxDurationOfInfectionInDays);
-        printf("--> %i \t",propagationModel->populationList->array[ii].vitalModel.immunityRate);
+        printf("--> %0.2f \t",propagationModel->populationList->array[ii].vitalModel.immunityRate);
         puts("\n");
     }
-    puts("------------------------------- \n");
+    puts("------------------------------- \n");*/
 }
 
 void addSick(Propagation_Model *propagationModel) {
@@ -106,7 +154,37 @@ void movePerson(Propagation_Model *propagationModel) {
 
 }
 
+// TODO eliminar quando for para entregar
+void tests(Propagation_Model *propagationModel) {
+    /*for (int i = 0; i < propagationModel->spaceList->length; i++) {
+        printf("%i \t",propagationModel->spaceList->localsSmartList[i].local.id);
+        printf("%i \t",propagationModel->spaceList->localsSmartList[i].local.capacity);
+        puts("\n## Healthy ##");
+        for (int j = 0; j < propagationModel->spaceList->localsSmartList[i].numberOfHealthyPeople ; ++j) {
+            printf("%s %i \t",propagationModel->spaceList->localsSmartList[i].listOfHealthyPeople[j].person->name, propagationModel->spaceList->localsSmartList[i].listOfHealthyPeople[j].person->age);
+        }
+        puts("## Infected ##");
+        for (int j = 0; j < propagationModel->spaceList->localsSmartList[i].numberOfInfectedPeople ; ++j) {
+            printf("%s %i \t",propagationModel->spaceList->localsSmartList[i].listOfInfectedPeople[j].person->name, propagationModel->spaceList->localsSmartList[i].listOfInfectedPeople[j].person->age);
+        }
+        puts("\n");
+    }*/
+    for (int i = 0; i < propagationModel->spaceList->length ; ++i) {
+        int totalIn = 0, totalHealt = 0;
+
+        for (int ii = 0; ii < propagationModel->spaceList->localsSmartList[i].numberOfHealthyPeople; ii++) {
+            totalHealt += sizeof(propagationModel->spaceList->localsSmartList[i].listOfHealthyPeople[ii]);
+        }
+        for (int ii = 0; ii < propagationModel->spaceList->localsSmartList[i].numberOfInfectedPeople; ii++) {
+            totalIn += sizeof(propagationModel->spaceList->localsSmartList[i].listOfInfectedPeople[ii]);
+        }
+        printf("infected: %i\thealthy: %i\n", totalIn, totalHealt);
+    }
+
+}
+
 void simulation() {
+    int days = 0;
     /*char spaceFile[STRING_SIZE], populationFile[STRING_SIZE];
     puts("Caminho do ficheiro dos locais: ");
     scanf("%s", spaceFile);
@@ -122,19 +200,22 @@ void simulation() {
     while(1) {
         switch (option) {
             case '1':
-                makeInteractions(&propagationModel, 1);
+                makeInteractions(&propagationModel, 1, &days);
                 break;
             case '2':
-                makeInteractions(&propagationModel, 3);
+                makeInteractions(&propagationModel, 3, &days);
                 break;
             case '3':
-                report(&propagationModel);
+                report(&propagationModel, days);
                 break;
             case '4':
                 addSick(&propagationModel);
                 break;
             case '5':
                 movePerson(&propagationModel);
+                break;
+            case '6':
+                tests(&propagationModel);
                 break;
             case '0':
                 puts("Programa terminado");
@@ -166,6 +247,4 @@ void main() {
                 break;
         }
     }
-
-    return;
 }

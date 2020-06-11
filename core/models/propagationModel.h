@@ -25,4 +25,6 @@ Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename
 int makeConnection(localsSmartList *smartList, Person *person);
 int buildPropagationModel(Space *space,  Population *listOfPersons);
 
+void addPersonToTheHealthyList(localsSmartList *space, int index);
+
 #endif //PROPAGATIONMODEL_H
