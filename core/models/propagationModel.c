@@ -17,7 +17,7 @@ Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename
 
     propagationModel.spaceList = spaceDataStruct;
     propagationModel.populationList = peopleDataStruct;
-    propagationModel.spreadRate = 5;
+    propagationModel.spreadRate = (float) 5/100;
 
     buildPropagationModel(spaceDataStruct, peopleDataStruct);
 
@@ -56,21 +56,44 @@ int buildPropagationModel(Space *space,  Population *listOfPersons) {
     return 1;
 }
 
-void addPersonToTheHealthyList(localsSmartList *smartList, int index) {
-    int positionsToShift = smartList->numberOfInfectedPeople - index - 1;
-    smartList->listOfHealthyPeople = realloc(smartList->listOfHealthyPeople, sizeof(Connection) * smartList->numberOfHealthyPeople + 1);
+void switchPersonToTheHealthyList(localsSmartList *smartList, int index) {
+    int positionsToShift = smartList->numberOfInfectedPeople - 1 - index;
+
+    smartList->listOfHealthyPeople = realloc(smartList->listOfHealthyPeople, sizeof(Connection) * (smartList->numberOfHealthyPeople + 1));
     smartList->listOfHealthyPeople[smartList->numberOfHealthyPeople] = smartList->listOfInfectedPeople[index];
 
-    for (int i = 0; i < positionsToShift; i++) {
-        if (i == positionsToShift - 1) break;
-
+    for (int i = 0; i < positionsToShift; i++)
         smartList->listOfInfectedPeople[index + i] = smartList->listOfInfectedPeople[index + i + 1];
-    }
 
     smartList->numberOfInfectedPeople--;
     smartList->numberOfHealthyPeople++;
 
-    printf("%i\n", smartList->numberOfInfectedPeople);
-
     smartList->listOfInfectedPeople = realloc(smartList->listOfInfectedPeople, sizeof(Connection) * smartList->numberOfInfectedPeople);
+}
+
+void switchPersonToInfectedList(localsSmartList *smartList, int index) {
+    int positionsToShift = smartList->numberOfHealthyPeople - 1 - index;
+
+    smartList->listOfInfectedPeople = realloc(smartList->listOfInfectedPeople, sizeof(Connection) * (smartList->numberOfInfectedPeople + 1));
+    smartList->listOfInfectedPeople[smartList->numberOfInfectedPeople] = smartList->listOfHealthyPeople[index];
+
+    for (int i = 0; i < positionsToShift; i++)
+        smartList->listOfHealthyPeople[index + i] = smartList->listOfHealthyPeople[index + i + 1];
+
+    smartList->numberOfInfectedPeople++;
+    smartList->numberOfHealthyPeople--;
+
+    smartList->listOfHealthyPeople = realloc(smartList->listOfHealthyPeople, sizeof(Connection) * smartList->numberOfHealthyPeople);
+}
+
+void addSickPerson(Propagation_Model *propagationModel, Person person, int indexOfLocal) {
+    localsSmartList *smartList = propagationModel->spaceList->localsSmartList + indexOfLocal;
+
+    appendPersonToList(propagationModel->populationList, person);
+
+    smartList->listOfInfectedPeople = realloc(smartList->listOfInfectedPeople, sizeof(Connection) * (smartList->numberOfInfectedPeople + 1));
+    smartList->listOfInfectedPeople[smartList->numberOfInfectedPeople].person = propagationModel->populationList->array + propagationModel->populationList->length - 1;
+
+    smartList->numberOfInfectedPeople++;
+    smartList->numberOfPeople++;
 }

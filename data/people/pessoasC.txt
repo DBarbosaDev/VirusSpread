@@ -38,3 +38,43 @@ PedroPedraPedroPedra   27    S
 DianaDianaD      89    S
 TobiasTobiasF    98    S
 LeonardoLeonardoL  10   S
+PP1  25  S
+SA  23  S
+T111   12   I
+PP2   67    D   10
+MMAAA   40    I
+Z2A    17 S
+O1     12  S
+SS   56   D   1
+SaS       56    D   1
+HA        20    D  3
+HB        25   D   10
+HC       14   D    5
+PA123   34   D   4
+C1     20   D    3
+CC  34   D   7
+SMA1   24  S
+PP3   27    S
+DDA      89    S
+TF    98    S
+LL1  10   S
+PPP1  77  I
+SSA  22  D
+TT111   12   I
+PPP2   88    D   10
+MMMAAA   40    I
+ZZ2A    16  D    2
+OO1     11  D   2
+SSS   57   D   1
+SSaS       77    D   1
+HHA        22    D  3
+HHB        29   D   10
+HHC       12   S
+PPA123   43   D   4
+CC1     22   D    3
+CCC  37   D   7
+SSMA1   28  S
+PPP3   33    S
+DDDA      90    S
+TTF    85    S
+LLL1  10   D    1

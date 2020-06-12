@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "personVitalModel.h"
 #include "../builders/populationBuilder.h"
 #include "../builders/spaceBuilder.h"
 #include "../../helpers/utils.h"
@@ -18,13 +19,19 @@
 typedef struct {
     Space *spaceList;
     Population *populationList;
-    int spreadRate;
+    float spreadRate;
 } Propagation_Model;
 
 Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename);
+
 int makeConnection(localsSmartList *smartList, Person *person);
+
 int buildPropagationModel(Space *space,  Population *listOfPersons);
 
-void addPersonToTheHealthyList(localsSmartList *space, int index);
+void switchPersonToTheHealthyList(localsSmartList *space, int index);
+
+void switchPersonToInfectedList(localsSmartList *smartList, int index);
+
+void addSickPerson(Propagation_Model *propagationModel, Person person, int indexOfLocal);
 
 #endif //PROPAGATIONMODEL_H

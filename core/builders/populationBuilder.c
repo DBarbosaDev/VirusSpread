@@ -23,6 +23,7 @@ Population *buildPopulationList(char *filename) {
 
 void appendPersonToList(Population *currentList, Person person) {
     int index = currentList->length;
+    person.id = currentList->length + 1;
 
     currentList->array = realloc(currentList->array, sizeof(Person)*(index+1));
     if (currentList->array == NULL) return perror("Erro na alocacao de memoria");
@@ -46,7 +47,6 @@ void getPersonsFromFile(char *filename, Population *currentList) {
 
     while (feof(file) == 0)
     {
-        person.id = currentList->length + 1;
         fscanf(file, " %s ", person.name);
         fscanf(file, " %i ", &person.age);
         fscanf(file, " %s ", person.state);
