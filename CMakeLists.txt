@@ -14,4 +14,4 @@ add_executable(
         core/models/propagationModel.c
         core/models/propagationModel.h
         helpers/feedbackMessages.c
-        helpers/feedbackMessages.h)
+        helpers/feedbackMessages.h helpers/validations.c helpers/validations.h)

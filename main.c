@@ -5,10 +5,43 @@
  * @Author Diogo Filipe Marinho Barbosa
  * @Number 2018012425
 */
-#define STRING_SIZE 30
-#include<stdio.h>
+
+#include <stdio.h>
+#include <string.h>
 #include "helpers/utils.c"
+#include "helpers/validations.h"
 #include "core/models/propagationModel.h"
+
+#define STRING_SIZE_BUFFER 100
+
+
+void menuOfAvailableLocations(Propagation_Model *propagationModel) {
+    for (int i = 0; i < propagationModel->spaceList->length; ++i) {
+        int population = propagationModel->spaceList->localsSmartList[i].numberOfPeople;
+        int maxCapacity = propagationModel->spaceList->localsSmartList[i].local.capacity;
+
+        if (population < maxCapacity) {
+            printf("%i:\tLocal %i com uma populacao de %i/%i \n", i + 1, propagationModel->spaceList->localsSmartList[i].local.id, population, maxCapacity);
+        }
+
+    }
+}
+
+void menuOfAvailableConnectedLocations(Propagation_Model *propagationModel, int indexOfParentLocal) {
+    for (int i = 0; i < 3; i++) {
+        int refLocal = propagationModel->spaceList->localsSmartList[indexOfParentLocal].local.refLocal[i];
+
+        for (int ii = 0; ii < propagationModel->spaceList->length; ii++) {
+            int population = propagationModel->spaceList->localsSmartList[indexOfParentLocal].numberOfPeople;
+            int maxCapacity = propagationModel->spaceList->localsSmartList[indexOfParentLocal].local.capacity;
+
+            if (refLocal !=  propagationModel->spaceList->localsSmartList[ii].local.id || population >= maxCapacity) break;
+
+            printf("%i:\tLocal %i com uma populacao de %i/%i \n", i + 1, propagationModel->spaceList->localsSmartList[i].local.id, population, maxCapacity);
+            break;
+        }
+    }
+}
 
 char mainMenu(int showMenu) {
     char option;
@@ -21,8 +54,8 @@ char mainMenu(int showMenu) {
                "| ===================================== |\n");
     }
 
-    printf("option > ");
-    scanf("%s", &option);
+    printf("opcao > ");
+    scanf("%3s", &option);
 
     return option;
 }
@@ -43,8 +76,8 @@ char simulationMenu(int showMenu) {
                "| ===================================== |\n");
     }
 
-    printf("option >");
-    scanf("%s", &option);
+    printf("opcao >");
+    scanf("%3s", &option);
 
     return option;
 }
@@ -102,51 +135,171 @@ void makeInteractions(Propagation_Model *propagationModel, int interactions, int
     }
 }
 
-void report(Propagation_Model *propagationModel, int days) {
+void getStatistics(Propagation_Model *propagationModel, int days) {
     puts("===== Estado atual da simulacao =====");
     printf("Dia: %i\n", days);
 
     for (int i = 0; i < propagationModel->spaceList->length; i++) {
         localsSmartList local = propagationModel->spaceList->localsSmartList[i];
+        int percentageOfInfected = (int) (local.numberOfInfectedPeople*100)/local.numberOfPeople;
+        int percentageOfHealthy = (int) (local.numberOfHealthyPeople*100)/local.numberOfPeople;
+
         printf("\nO local com ID %i apresenta:\n"
                "Populacao total:             %i\n"
-               "Numero de pessoas infetadas: %i\n"
-               "Numero de pessoas saudaveis: %i\n",
-               local.local.id, local.numberOfPeople, local.numberOfInfectedPeople, local.numberOfHealthyPeople);
+               "Numero de pessoas infetadas: %i -> %i porcento\n"
+               "Numero de pessoas saudaveis: %i -> %i porcento\n",
+               local.local.id, local.numberOfPeople, local.numberOfInfectedPeople, percentageOfInfected, local.numberOfHealthyPeople, percentageOfHealthy);
     }
     puts("=====================================");
 }
 
-// TODO criar validações (inputs e capacidade do local)
-// TODO Apresentar também locais disponiveis com capacidade
-// TODO O estado está a ficar com valores estranhos para alem do D
-void newSickPerson(Propagation_Model *propagationModel) {
-    int indexOfLocal = 0;
-    Person person;
+void createReport(Propagation_Model *propagationModel, int days) {
+    FILE *f;
+    f = fopen("report.txt", "w");
 
-    puts("=== Novo doente ===");
-    puts("Local a incluir o doente: ");
-    scanf("%i", &indexOfLocal);
-    puts("Nome: ");
-    scanf("%s", person.name);
-    puts("Idade: ");
-    scanf("%i", &person.age);
-    puts("Dias doente: ");
-    scanf("%i", &person.sickedDays);
+    fputs("===================================== Relatorio da simulacao =====================================", f);
+    fprintf(f,"\nDias|Interacoes: %i\n", days);
 
-    person.state[0] = 'D';
-    person.vitalModel = getPersonVitalModel(person.age);
+    for (int i = 0; i < propagationModel->spaceList->length; i++) {
+        localsSmartList local = propagationModel->spaceList->localsSmartList[i];
+        int percentageOfInfected = (int) (local.numberOfInfectedPeople*100)/local.numberOfPeople;
+        int percentageOfHealthy = (int) (local.numberOfHealthyPeople*100)/local.numberOfPeople;
 
-    addSickPerson(propagationModel, person, indexOfLocal);
+        fprintf(f,"\n\n###### O local com ID %i apresenta: ######\n"
+               "Populacao total:             %i\n"
+               "Numero de pessoas infetadas: %i -> %i porcento\n"
+               "Numero de pessoas saudaveis: %i -> %i porcento\n\n",
+               local.local.id, local.numberOfPeople, local.numberOfInfectedPeople, percentageOfInfected, local.numberOfHealthyPeople, percentageOfHealthy);
+
+        fputs("### Populacao:\n", f);
+
+        for (int j = 0; j < local.numberOfHealthyPeople ; j++) {
+            fprintf(f,"Nome: %s \t\t\t Idade: %i \t\t\t Estado: %s \n",local.listOfHealthyPeople[j].person->name, local.listOfHealthyPeople[j].person->age, local.listOfHealthyPeople[j].person->state);
+        }
+        for (int j = 0; j < local.numberOfInfectedPeople ; j++) {
+            fprintf(f,"Nome: %s \t\t\t Idade: %i \t\t\t Estado: %s \n",local.listOfInfectedPeople[j].person->name, local.listOfInfectedPeople[j].person->age, local.listOfInfectedPeople[j].person->state);
+        }
+
+        fputs("############################################\n", f);
+    }
+    fputs("===================================================================================================",f);
+
+    fclose(f);
 }
 
+// TODO Não deixa selecionar o ultimo local e por vezes aceita locais lotados(parece ser o ultimo), ver
+void newSickPerson(Propagation_Model *propagationModel) {
+    Person person;
+    int indexOfLocal = -1, loopController = 1;
+    char localIdToTest[STRING_SIZE_BUFFER] = "\0",
+        ageToTest[STRING_SIZE_BUFFER] = "\0",
+        daysSickedToTest[STRING_SIZE_BUFFER] = "\0";
+
+    puts("=== Novo doente ===");
+    puts("Nome: ");
+    scanf("%99s", person.name);
+
+    while(loopController) {
+        if (!isValidNumber(localIdToTest, &indexOfLocal) || indexOfLocal == -1) {
+            puts("Locais disponiveis para incluir o doente (valor inteiro natural): ");
+            menuOfAvailableLocations(propagationModel);
+            printf("opcao> ");
+            scanf("%99s", localIdToTest);
+            continue;
+        }
+
+        if (isValidNumber(localIdToTest, &indexOfLocal) && indexOfLocal != -1 && !isNumberBetween(indexOfLocal, 1, propagationModel->spaceList->length + 1)) {
+            indexOfLocal = -1;
+            strcpy(localIdToTest, "\0");
+            continue;
+        } else if (!hasFreeSpace(propagationModel->spaceList->localsSmartList[indexOfLocal])) {
+            indexOfLocal = -1;
+            strcpy(localIdToTest, "\0");
+            continue;
+        }
+
+        if (!isValidNumber(ageToTest, &person.age)) {
+            printf("Idade (valor inteiro natural): ");
+            scanf("%3s", ageToTest);
+            continue;
+        }
+
+        if (!isValidNumber(daysSickedToTest, &person.sickedDays)) {
+            printf("Dias doente(valor inteiro natural): ");
+            scanf("%99s", daysSickedToTest);
+            continue;
+        }
+
+        loopController = 0;
+    }
+
+    strcpy(person.state, "D");
+    person.vitalModel = getPersonVitalModel(person.age);
+
+    addSickPerson(propagationModel, person, indexOfLocal - 1);
+}
+
+// TODO Acabar
 void movePerson(Propagation_Model *propagationModel) {
+    int loopController = 1;
+    int firstLocalId = -1, secondLocalId = -1, numberOfpeopleToTransfer = 0;
+    char firstLocalIdToTest[STRING_SIZE_BUFFER] = "\0",
+        secondLocalIdToTest[STRING_SIZE_BUFFER] = "\0",
+        numberOfpeopleToTransferToTest[STRING_SIZE_BUFFER] = "\0";
+
+    while (loopController) {
+        if (!isValidNumber(firstLocalIdToTest, &firstLocalId) || firstLocalId == -1) {
+            puts("Locais disponiveis para incluir o doente (valor inteiro natural): ");
+            menuOfAvailableLocations(propagationModel);
+            printf("opcao> ");
+            scanf("%99s", firstLocalIdToTest);
+            continue;
+        }
+
+        // verificer se o local está lotado
+        if (isValidNumber(secondLocalIdToTest, &firstLocalId) && firstLocalId != -1 && !isNumberBetween(firstLocalId, 1, propagationModel->spaceList->length + 1)) {
+            firstLocalId = -1;
+            strcpy(secondLocalIdToTest, "\0");
+            continue;
+        } else if (!hasFreeSpace(propagationModel->spaceList->localsSmartList[firstLocalId])) {
+            firstLocalId = -1;
+            strcpy(secondLocalIdToTest, "\0");
+            continue;
+        }
+
+        if (!isValidNumber(secondLocalIdToTest, &secondLocalId) || secondLocalId == -1) {
+            puts("Locais ligados (valor inteiro natural): ");
+            menuOfAvailableConnectedLocations(propagationModel, firstLocalId);
+            printf("opcao> ");
+            scanf("%99s", secondLocalIdToTest);
+            continue;
+        }
+
+        // verificer se o local tem espaço e se está ligado ao primeiro
+        if(0) {
+
+            continue;
+        }
+
+
+        if (!isValidNumber(numberOfpeopleToTransferToTest, &numberOfpeopleToTransfer) || numberOfpeopleToTransfer == 0) {
+            puts("Locais ligados (valor inteiro natural): ");
+            printf("opcao> ");
+            scanf("%99s", numberOfpeopleToTransferToTest);
+            continue;
+        }
+
+        loopController = 0;
+    }
+
+    //adiciona aos locais
+    //ter em consideração o estado.
 
 }
 
 // TODO eliminar quando for para entregar
 void tests(Propagation_Model *propagationModel) {
-    for (int i = 0; i < propagationModel->spaceList->length ; ++i) {
+    /*for (int i = 0; i < propagationModel->spaceList->length ; ++i) {
         int totalIn = 0, totalHealt = 0;
 
         for (int ii = 0; ii < propagationModel->spaceList->localsSmartList[i].numberOfHealthyPeople; ii++) {
@@ -183,6 +336,11 @@ void tests(Propagation_Model *propagationModel) {
         printf("--> %i \t",propagationModel->populationList->array[ii].vitalModel.maxDurationOfInfectionInDays);
         printf("--> %0.2f \t",propagationModel->populationList->array[ii].vitalModel.immunityRate);
         puts("\n");
+    }*/
+    for (int i = 0; i < propagationModel->spaceList->length; i++) {
+        printf("local: %i \t capacidade %i/%i\n", propagationModel->spaceList->localsSmartList[i].local.id,
+               propagationModel->spaceList->localsSmartList[i].numberOfPeople,
+               propagationModel->spaceList->localsSmartList[i].local.capacity);
     }
     puts("------------------------------- \n");
 
@@ -252,7 +410,7 @@ void simulation() {
                 makeInteractions(&propagationModel, 3, &days);
                 break;
             case '3':
-                report(&propagationModel, days);
+                getStatistics(&propagationModel, days);
                 break;
             case '4':
                 newSickPerson(&propagationModel);
@@ -264,6 +422,7 @@ void simulation() {
                 tests(&propagationModel);
                 break;
             case '0':
+                createReport(&propagationModel, days);
                 puts("Programa terminado");
                 return;
             default:
@@ -303,7 +462,5 @@ void main() {
     char *peopleFile = "./data/people/pessoasC.txt";
 
     Propagation_Model propagationModel = initPropagationModel(spaceFile, peopleFile);
-    makeInteractions(&propagationModel, 150, &days);
-
-    report(&propagationModel, days);
+    newSickPerson(&propagationModel);
 }*/
