@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include "../models/personVitalModel.h"
 
+#define STRING_SIZE_BUFFER 100
+
 typedef struct Person {
     int id;
     char name[100];
@@ -27,9 +29,24 @@ typedef struct Population {
     int length;
 } Population;
 
+/*
+ * Função que constroi a lista da população e retorna o ponteiro dessa lista
+ * @param filename -> nome do ficheiro da população
+*/
 Population *buildPopulationList(char *filename);
 
+/*
+ * Função que adiciona de forma dinâmica ao array da estrutura passada em argumento;
+ * @param currentList -> ponteiro para a lista principal criada em buildPopulationList
+ * @param person -> estrutura a inserir ao array
+*/
 void appendPersonToList(Population *currentList, Person person);
+
+/*
+ * Função que retira a informação do ficheiro da população
+ * @param filename -> nome do ficheiro
+ * @param currentList -> ponteiro para a minha lista principal
+*/
 void getPersonsFromFile(char *filename, Population *currentList);
 
 #endif //POPULATIONBUILDER_H

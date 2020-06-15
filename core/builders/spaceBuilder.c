@@ -7,6 +7,7 @@
 */
 
 #include "spaceBuilder.h"
+#include "../../helpers/validations.h"
 
 Space *buildSpaceList(char *filename) {
     Space *newSpace = malloc(sizeof(Space));
@@ -46,8 +47,20 @@ void getLocalContentFromBinFile(char *filename, Space *currentSpace) {
     }
 
     //fread retorna 1 sempre que o ficheiro contem informação para ler
-    while (fread(&local, sizeof(Local), 1, file) == 1)
+    while (fread(&local, sizeof(Local), 1, file) == 1) {
+
+        if(local.id < 1 || local.capacity < 1) {
+            perror("Os valores aceites para a Capacidade e para o Id tem de ser maiores ou iguais a 1.");
+            exit(1);
+        }
+
         appendLocalToList(currentSpace, local);
+    }
+
+    if(!hasSpaceCorrectConnections(currentSpace)) {
+        perror("Os valores aceites para a Capacidade e para o Id tem de ser maiores ou iguais a 1.");
+        exit(1);
+    }
 
     fclose(file);
 }

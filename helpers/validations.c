@@ -8,6 +8,7 @@
 
 #include "validations.h"
 
+
 int isValidNumber(char *numberInString, int *associateTo) {
     if (strlen(numberInString) == 0) return 0;
     for (int i = 0; i < strlen(numberInString); i++) {
@@ -18,29 +19,31 @@ int isValidNumber(char *numberInString, int *associateTo) {
     return 1;
 }
 
-int isNumberBetween(int value, int minValue, int maxValue) {
-    if (value < minValue || value > maxValue)
-        return 0;
-    return 1;
-}
-
 int hasFreeSpace(localsSmartList smartList) {
     if (smartList.numberOfPeople >= smartList.local.capacity)
         return 0;
     return 1;
 }
 
-int hasPeopleToMove(localsSmartList smartList, int peopleToMove) {
-    if (smartList.numberOfPeople == peopleToMove)
-        return 1;
-    return 0;
-}
+int hasSpaceCorrectConnections(Space *space) {
+    int countNonRefLocal = 0;
+    for (int i = 0; i < space->length; i++) {
+        for (int ii = 0; ii < TAM_CONNECTIONS; ii++) {
+            int refLocalId = space->localsSmartList[i].local.refLocal[ii];
 
-int isAConnection(Space *space, int indexOfFather, int indexOfChield) {
+            if (refLocalId == -1) {
+                countNonRefLocal ++;
+                break;
+            }
 
-    for (int i = 0; i < TAM_CONNECTIONS; i++) {
-        if (space->localsSmartList[indexOfFather].local.refLocal[i] == indexOfChield) {
-            return 1;
+            if (countNonRefLocal == TAM_CONNECTIONS) return 1;
+
+            int connectionIndex = getLocalIndexById(space, refLocalId);
+
+            for (int j = 0; j < TAM_CONNECTIONS; j++) {
+                if (space->localsSmartList[connectionIndex].local.refLocal[j] == space->localsSmartList[i].local.id)
+                    return 1;
+            }
         }
     }
 
@@ -66,6 +69,7 @@ int theFileExists(char *fileName) {
 
     puts("O ficheiro nao existe!\n");
     strcpy(fileName, "\0");
+
     return 0;
 }
 
@@ -77,3 +81,4 @@ int hasLocalWithSpace(Space *space) {
 
     return 0;
 }
+

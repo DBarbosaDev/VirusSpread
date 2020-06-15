@@ -7,6 +7,7 @@
 */
 
 #include "populationBuilder.h"
+#include "../../helpers/validations.h"
 
 Population *buildPopulationList(char *filename) {
     Population *newSmartList = malloc(sizeof(Population));
@@ -33,6 +34,7 @@ void appendPersonToList(Population *currentList, Person person) {
 void getPersonsFromFile(char *filename, Population *currentList) {
     FILE *file;
     Person person;
+    char ageToTest[STRING_SIZE_BUFFER] = "\0", daysSickedToTest[STRING_SIZE_BUFFER] = "\0";
 
     file = fopen(filename, "r");
     if (file == NULL) {
@@ -43,13 +45,30 @@ void getPersonsFromFile(char *filename, Population *currentList) {
     while (feof(file) == 0)
     {
         fscanf(file, " %s ", person.name);
-        fscanf(file, " %i ", &person.age);
+        fscanf(file, " %s ", ageToTest);
         fscanf(file, " %s ", person.state);
         person.vitalModel = getPersonVitalModel(person.age);
 
         person.sickedDays = -1;
-        if(person.state[0] == 'D')
-            fscanf(file, " %i ", &person.sickedDays);
+        if(person.state[0] == 'D') {
+            fscanf(file, " %s ", daysSickedToTest);
+
+            if (!isValidNumber(daysSickedToTest, &person.sickedDays)) {
+                perror("O valor da quantidades de dias doente deve ser um numero inteiro natural maior do que zero.");
+                exit(1);
+            }
+
+        }
+
+        if (person.state[0] != 'D' && person.state[0] != 'I' && person.state[0] != 'S') {
+            perror("So sao aceites estados com as letras D, S e I.");
+            exit(1);
+        }
+
+        if (!isValidNumber(ageToTest, &person.age)) {
+            perror("O valor da idade deve ser um numero inteiro natural maior do que zero.");
+            exit(1);
+        }
 
         appendPersonToList(currentList, person);
     }

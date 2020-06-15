@@ -1,7 +1,0 @@
-########## FALTA:
--> Validar os dados recebidos dos ficheiros;
--> Está a rebentar quando escolho o ficheiro A das pessoas
-
-SEGUNDA-FEIRA É DEDICADA EXCLUSIVAMENTE A DOCUMENTAÇÃO
--> Tentar realizar o histórico (Está a dar erro em algum lado na criação do mesmo)...
-    -Não vou consegui. Explicar no relatório o que ia fazer.

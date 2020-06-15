@@ -29,6 +29,10 @@ typedef struct Vital_Model {
 
 } Vital_Model;
 
+/*
+ * Função que cria o modelo vital de uma pessoa de acordo com a sua idade
+ * @param age -> idade
+*/
 Vital_Model getPersonVitalModel(int age);
 
 #endif //PERSONMODEL_H

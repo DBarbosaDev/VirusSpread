@@ -35,14 +35,14 @@ void menuOfAvailableLocationsWithConnections(Propagation_Model *propagationModel
         int maxCapacity = propagationModel->spaceList->localsSmartList[i].local.capacity;
 
         if (hasConnections) {
-            printf("%i:\tLocal %i com uma populacao de %i/%i -> Conexoes: ", propagationModel->spaceList->localsSmartList[i].local.id, propagationModel->spaceList->localsSmartList[i].local.id, population, maxCapacity);
+            printf("%i:\tLocal %i com uma populacao de %i/%i\n\t - Conexoes:", propagationModel->spaceList->localsSmartList[i].local.id, propagationModel->spaceList->localsSmartList[i].local.id, population, maxCapacity);
         }
 
         for (int ii = 0; ii < TAM_CONNECTIONS; ii++)
             if (propagationModel->spaceList->localsSmartList[i].local.refLocal[ii] != -1)
-                printf("Local %i | \t", propagationModel->spaceList->localsSmartList[i].local.refLocal[ii]);
+                printf("\tLocal %i\t", propagationModel->spaceList->localsSmartList[i].local.refLocal[ii]);
 
-        puts("\n");
+        printf("\n");
     }
 }
 
@@ -74,7 +74,6 @@ char simulationMenu(int showMenu) {
         printf("| 3 -> Apresentar estatistica           |\n");
         printf("| 4 -> Adicionar doente                 |\n");
         printf("| 5 -> Transferir pessoa                |\n");
-        printf("| 6 -> Tests(to delete)                 |\n");
         printf("| 0 -> Terminar simulacao               |\n"
                "| ===================================== |\n");
     }
@@ -85,8 +84,6 @@ char simulationMenu(int showMenu) {
     return option;
 }
 
-// TODO verificar o que está a acontecer aqui
-// * Sobra sempre um infetado ao fim de imensas interações. Em certas ocorrências passa a 0
 void managePersonVitalState(Person *person, localsSmartList *local, int index) {
     if (person->sickedDays >= person->vitalModel.maxDurationOfInfectionInDays || probEvento(person->vitalModel.probabilityOfRecovery)) {
         person->state[0] = 'S';
@@ -154,10 +151,10 @@ void getStatistics(Propagation_Model *propagationModel, int days) {
         int percentageOfHealthy = (int) (local.numberOfHealthyPeople*100)/local.numberOfPeople;
 
         printf("\nO local com ID %i apresenta:\n"
-               "Populacao total:             %i\n"
+               "Populacao total:             %i/%i\n"
                "Numero de pessoas infetadas: %i -> %i porcento\n"
                "Numero de pessoas saudaveis: %i -> %i porcento\n",
-               local.local.id, local.numberOfPeople, local.numberOfInfectedPeople, percentageOfInfected, local.numberOfHealthyPeople, percentageOfHealthy);
+               local.local.id, local.numberOfPeople, local.local.capacity, local.numberOfInfectedPeople, percentageOfInfected, local.numberOfHealthyPeople, percentageOfHealthy);
     }
     puts("=====================================");
 }
@@ -203,7 +200,6 @@ void createReport(Propagation_Model *propagationModel, int days) {
     fclose(f);
 }
 
-// TODO Não deixa selecionar o ultimo local e por vezes aceita locais lotados(parece ser o ultimo), ver
 void newSickPerson(Propagation_Model *propagationModel) {
     if (!hasLocalWithSpace(propagationModel->spaceList)) {
         puts("Os Locais estao todos lotados\n");
@@ -229,7 +225,7 @@ void newSickPerson(Propagation_Model *propagationModel) {
             continue;
         }
 
-        if (!hasFreeSpace(propagationModel->spaceList->localsSmartList[getLocalIndexById(propagationModel,localId)])) {
+        if (!hasFreeSpace(propagationModel->spaceList->localsSmartList[getLocalIndexById(propagationModel->spaceList,localId)])) {
             localId = -1;
             strcpy(localIdToTest, "\0");
             continue;
@@ -253,7 +249,7 @@ void newSickPerson(Propagation_Model *propagationModel) {
     strcpy(person.state, "D");
     person.vitalModel = getPersonVitalModel(person.age);
 
-    addSickPerson(propagationModel, person, getLocalIndexById(propagationModel,localId));
+    addSickPerson(propagationModel, person, getLocalIndexById(propagationModel->spaceList,localId));
 }
 
 void movePerson(Propagation_Model *propagationModel) {
@@ -261,16 +257,16 @@ void movePerson(Propagation_Model *propagationModel) {
 
     menuOfAvailableLocationsWithConnections(propagationModel);
 
-    puts("Id Local: ");
+    puts("Id Local origem: ");
     scanf(" %i",&firstLocalId);
 
-    puts("Id do local que vai receber as pessoas: ");
+    puts("Id do local de destino: ");
     scanf(" %i",&secondLocalId);
 
     puts("Numero de pessoas para transferir: ");
     scanf(" %i",&numberOfpeopleToTransfer);
 
-    movePersons(propagationModel, numberOfpeopleToTransfer, getLocalIndexById(propagationModel,firstLocalId), getLocalIndexById(propagationModel,secondLocalId));
+    movePersons(propagationModel, numberOfpeopleToTransfer, getLocalIndexById(propagationModel->spaceList,firstLocalId), getLocalIndexById(propagationModel->spaceList,secondLocalId));
 
 }
 
@@ -303,14 +299,14 @@ void simulation() {
     testFilesExistance(spaceFile, populationFile);
 
     Propagation_Model propagationModel = initPropagationModel(spaceFile, populationFile);
-    Historic historic = initHistoric();
+    //Historic historic = initHistoric();
 
     char option = simulationMenu(1);
     while(1) {
         switch (option) {
             case '1':
                 makeInteractions(&propagationModel, 1, &days);
-                addToHistoric(&historic, propagationModel);
+                //addToHistoric(&historic, propagationModel);
                 break;
             case '2':
                 puts("Funcionalidade por terminar");

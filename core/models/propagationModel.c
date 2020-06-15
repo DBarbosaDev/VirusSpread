@@ -52,9 +52,9 @@ int buildPropagationModel(Space *space,  Population *listOfPersons) {
     return 1;
 }
 
-int getLocalIndexById(Propagation_Model *propagationModel, int localId) {
-    for (int i = 0; i < propagationModel->spaceList->length; i++) {
-        if (propagationModel->spaceList->localsSmartList[i].local.id == localId)
+int getLocalIndexById(Space *space, int localId) {
+    for (int i = 0; i < space->length; i++) {
+        if (space->localsSmartList[i].local.id == localId)
             return i;
     }
 
