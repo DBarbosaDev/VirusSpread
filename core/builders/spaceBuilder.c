@@ -10,14 +10,12 @@
 
 Space *buildSpaceList(char *filename) {
     Space *newSpace = malloc(sizeof(Space));
-    messageWithDelay("=== A iniciar a construcao do Espaco... ===\n");
 
     newSpace->localsSmartList = malloc(0);
     newSpace->length = 0;
 
     getLocalContentFromBinFile(filename, newSpace);
 
-    messageWithDelay("=== Construcao finalizada com sucesso! ===\n\n");
     return newSpace;
 }
 
@@ -41,16 +39,15 @@ void getLocalContentFromBinFile(char *filename, Space *currentSpace) {
     FILE *file;
     Local local;
 
-    messageWithDelay("A carregar dados do ficheiro...\n");
-
     file = fopen(filename, "rb");
-    if (file == NULL) return perror("O ficheiro binario nao existe");
+    if (file == NULL) {
+        perror("O ficheiro binario dos locais nao existe");
+        exit(1);
+    }
 
     //fread retorna 1 sempre que o ficheiro contem informação para ler
     while (fread(&local, sizeof(Local), 1, file) == 1)
         appendLocalToList(currentSpace, local);
 
     fclose(file);
-
-    messageWithDelay("Dados carregados com sucesso!\n");
 }

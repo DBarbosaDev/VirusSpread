@@ -28,10 +28,16 @@ int makeConnection(localsSmartList *smartList, Person *person);
 
 int buildPropagationModel(Space *space,  Population *listOfPersons);
 
+int getLocalIndexById(Propagation_Model *propagationModel, int localId);
+
 void switchPersonToTheHealthyList(localsSmartList *space, int index);
 
 void switchPersonToInfectedList(localsSmartList *smartList, int index);
 
 void addSickPerson(Propagation_Model *propagationModel, Person person, int indexOfLocal);
+
+void addPersonToLocal(localsSmartList *sourceLocal, localsSmartList *destinationLocal, int indexOfPerson, int isSick);
+
+void movePersons(Propagation_Model *propagationModel, int numberOfPersons, int indexOfLocal, int destinationLocationIndex);
 
 #endif //PROPAGATIONMODEL_H

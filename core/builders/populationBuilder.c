@@ -10,14 +10,12 @@
 
 Population *buildPopulationList(char *filename) {
     Population *newSmartList = malloc(sizeof(Population));
-    messageWithDelay("=== A iniciar a construcao da populacao... ===\n");
 
     newSmartList->array = malloc(0);
     newSmartList->length = 0;
 
     getPersonsFromFile(filename, newSmartList);
 
-    messageWithDelay("=== Construcao finalizada com sucesso! ===\n\n");
     return newSmartList;
 }
 
@@ -36,13 +34,10 @@ void getPersonsFromFile(char *filename, Population *currentList) {
     FILE *file;
     Person person;
 
-    messageWithDelay("A carregar dados do ficheiro...\n");
-
     file = fopen(filename, "r");
     if (file == NULL) {
-        perror("O ficheiro da populacao nao existe");
-        currentList = NULL;
-        return;
+        perror("O ficheiro binario dos locais nao existe");
+        exit(1);
     }
 
     while (feof(file) == 0)
@@ -60,6 +55,4 @@ void getPersonsFromFile(char *filename, Population *currentList) {
     }
 
     fclose(file);
-
-    messageWithDelay("Dados carregados com sucesso!\n");
 }

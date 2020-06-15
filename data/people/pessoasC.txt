@@ -78,3 +78,192 @@ PPP3   33    S
 DDDA      90    S
 TTF    85    S
 LLL1  10   D    1
+albertoferreira  61  D  1
+alcideslopeS  67  D  1
+andre10simoeS  81  D  1
+andreiaalmeida19  39  I
+antoniomoutinho29250  93  I
+bernardo-gomes10  54  D  1
+carlafigueiredo10825  61  I
+cecilianogueira74  64  S
+danielcosta199666101  64  I
+diogomoura199496929  62  D  5
+diogosantos19975  61  S
+diogosilva199335111  34  I
+doragatoeS  58  I
+erikisonviana1995  95  S
+fabialeite0  65  S
+felisbertopontes1993  43  S
+graciliamariano  48  S
+ivansimoes1997  71  S
+jm.costa.datorre  61  S
+joanagalhardo1999  2  S
+joaosantiago1996  64  S
+joaosantos199618984  58  I
+jorgelopes1993  70  I
+josegarrido68320  89  D  1
+joseluis3101  37  I
+josepovoa1994  31  I
+lena.c.f.l.2004  74  I
+marcia.vieira2000a  99  I
+marianamachado108  34  I
+marisajeronimo1995  86  D  2
+mauroalmeida1994  47  D  3
+maximelaranjeira1997  13  D  5
+miguelcruz_013  35  I
+nazariopanasyuk1995  10  D  1
+patricia_bolario  11  D  6
+paulosantos7369  35  D  2
+pedrosantos19943  61  I
+pedrosilva200139390  64  I
+pvarzeaS  93  I
+rafaelrodrigues19  84  D  10
+raquelsantana  80  S
+ritamelo  10  D  2
+ruibaptista1995  61  I
+ruisimoes199560766  29  S
+sandrinagalhano1996  56  I
+tiagolopes199535290  72  I
+viveiros.vitorcosta  46  D  2
+vs26032003  70  I
+waldercarvalho1999  24  D  2
+adrianaverga1996  54  S
+analeal1965  86  D  7
+andreiristic2001  86  D  8
+biaduarte02  75  D  6
+biiaferreira098  90  D  9
+brunodias19924746  41  D  2
+claudiapinto1997  9  I
+darlenejardimsilva  60  I
+davidbap7  71  I
+davidraphaelrodrig  5  I
+diogocosta199963770  87  D  6
+diogoscabral  37  I
+durvanara  72  S
+elsarocha1954  55  D  3
+fabioalmeida60  63  D  7
+fabiofrancisco100  31  D  6
+fernandaeffore2002  55  D  1
+francisco.lalanda07  65  S
+fredericopaiva1995  8  D  2
+gabrielferreira1995  99  S
+giselaalmeida83418  14  D  2
+goncalojesus.azevedo  38  I
+henriquebatista99  10  D  6
+hugo.d.19  60  D  4
+joaoconde1995  49  S
+joaoferreira19  74  D  2
+joaorosa20001  41  D  2
+leandropereiraa00  90  D  2
+mamasanha1993  8  I
+marcia_242000  2  S
+marianamelnychuk  64  D  11
+mariaoliveira10160  35  D  2
+monicagoncalves19  66  I
+mteresamachado67  54  D  1
+nataliiamelnychuk  54  I
+olgafelicio1965  69  D  10
+paulograca1996  6  D  1
+paulopantaleao2001  12  S
+pedroalmeida1997  7  I
+pedroviveiros56  57  S
+pmiguel792  37  D  7
+ricardotiago2001  14  I
+rogerioduarte1998  2  I
+ruifigueiredo01515  34  D  6
+rutesantos199753021  33  I
+soniadias93084  49  I
+soniasilva12127  22  D  5
+susanaduarte86934  72  I
+tiagoamaromartinS  62  I
+vazcox99  61  D  2
+74ritaduarte.rd  13  S
+airesleite  2  I
+anapina97252  19  D  5
+andrecapela  87  D  1
+andremacasphoto  31  D  7
+anibalmoreira  79  S
+brunafelicio1999  54  D  3
+camilalima2291  63  I
+catarina8alveS  29  S
+danyfigueiredo1996  70  D  2
+davidvieira1996  91  I
+diogorepas2002  10  S
+doracosta_1  40  D  1
+dulcemarques79583  40  D  3
+elsaiaiu  64  S
+emanuelsousa1997  2  D  1
+fabiofernandes19  81  I
+fabiomarta1998  96  D  8
+feliciom296  38  S
+filipe2001  95  I
+franciscahenriqueS  40  D  2
+goncaloafonso1997  86  D  5
+h4matiaS  69  D  7
+jessica.belieber94  40  I
+joaomortagua1980  31  I
+joelfonseca2001  87  I
+jorgetaveira  31  D  1
+kelvynpereira1992  65  D  7
+killerpoeira  4  D  5
+leandromelo1998  92  I
+leonardocosta3205  47  S
+marco.martins  81  I
+mariacapela33042  22  I
+mariasoares19  62  S
+onesimoinsessa1993  26  I
+patriciaseixaS  42  D  1
+paulaoliveira43992  12  D  4
+pauloferro19  39  D  3
+pcdarce123  67  S
+pedromachado19  13  D  2
+pspcarrilho79  26  S
+r4duarte4  3  I
+rutecavadas2013  29  I
+sarahcantarinho2000  81  S
+sofiajrS  85  I
+soniapereira57475  41  D  9
+tiagogoncalves67  66  D  2
+vera.neto15  27  D  6
+anaaguiar59896  51  S
+anacarlaesilva  49  D  6
+anagraca1991  62  S
+brunasousa22461  51  D  1
+brunodias1993  49  D  1
+carloscordeiro38  34  D  3
+danielo.o69  11  D  3
+diogopintomoraiS  58  I
+eduardoheleno123  33  D  2
+elizabetebarata  23  D  1
+germanotavareS.  67  I
+gustavofernandes20  19  I
+hugoalgarvio1994  14  D  1
+hugosimoes_2002  63  I
+isabelvieira70270  91  S
+jessicaalvaro123  8  D  1
+leandrocordeiro1997  31  I
+liciniaferreira  22  D  2
+luanaleite7  82  S
+mariamartins68535  22  D  1
+marianacarramate1997  7  I
+miguelbatistap  69  S
+miriam.si.lpS  93  I
+nataliasemedo  70  I
+nilton.fonte1234  33  S
+pca.inesleao  32  D  7
+pedroprata1996  81  S
+rafaelca1998  52  I
+ricardofernandes  78  S
+ritarosmaninho1981  30  I
+ritinhamelo  43  D  2
+rubencardoso27  20  I
+santostania051  75  D  10
+silverioalexander93  99  D  2
+simao.pedrot  95  S
+susanamendes22870  11  I
+susanaribeiro45278  18  I
+teresacraveiro  89  D  12
+tomas.gomes2011  83  D  12
+veraferreira78  72  D  11
+wesleydelgado1994  56  D  2
+

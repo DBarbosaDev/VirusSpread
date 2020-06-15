@@ -10,7 +10,6 @@
 
 Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename) {
     Propagation_Model propagationModel;
-    messageWithDelay("%%%% Construcao do modelo da simulacao iniciada %%%% \n\n");
 
     Space *spaceDataStruct = buildSpaceList(spaceFilename);
     Population *peopleDataStruct = buildPopulationList(peopleFilename);
@@ -21,7 +20,6 @@ Propagation_Model initPropagationModel(char *spaceFilename, char *peopleFilename
 
     buildPropagationModel(spaceDataStruct, peopleDataStruct);
 
-    messageWithDelay("%%%% Preparacao da simulacao finalizada com sucesso %%%% \n\n");
     return propagationModel;
 }
 
@@ -45,15 +43,22 @@ int makeConnection(localsSmartList *smartList, Person *person) {
 
 int buildPropagationModel(Space *space,  Population *listOfPersons) {
     localsSmartList *randLocal;
-    messageWithDelay("A distribuir pessoas pelos locais... \n");
 
     for (int i = 0; i < listOfPersons->length; i++) {
         randLocal = space->localsSmartList + intUniformRnd(1, space->length) - 1;
         makeConnection(randLocal, listOfPersons->array + i);
     }
 
-    messageWithDelay("Pessoas distribuidas com sucesso! \n");
     return 1;
+}
+
+int getLocalIndexById(Propagation_Model *propagationModel, int localId) {
+    for (int i = 0; i < propagationModel->spaceList->length; i++) {
+        if (propagationModel->spaceList->localsSmartList[i].local.id == localId)
+            return i;
+    }
+
+    return -1;
 }
 
 void switchPersonToTheHealthyList(localsSmartList *smartList, int index) {
@@ -96,4 +101,71 @@ void addSickPerson(Propagation_Model *propagationModel, Person person, int index
 
     smartList->numberOfInfectedPeople++;
     smartList->numberOfPeople++;
+}
+
+void addPersonToLocal(localsSmartList *sourceLocal, localsSmartList *destinationLocal, int indexOfPerson, int isSick) {
+    if (isSick) {
+        destinationLocal->listOfInfectedPeople = realloc(destinationLocal->listOfInfectedPeople, sizeof(Connection) * (destinationLocal->numberOfInfectedPeople + 1));
+        destinationLocal->listOfInfectedPeople[destinationLocal->numberOfInfectedPeople] = sourceLocal->listOfInfectedPeople[indexOfPerson];
+
+        for (int i = 0; i < sourceLocal->numberOfInfectedPeople; i++)
+            sourceLocal->listOfInfectedPeople[i] = sourceLocal->listOfInfectedPeople[i + 1];
+
+        destinationLocal->numberOfInfectedPeople++;
+        sourceLocal->numberOfInfectedPeople--;
+
+        sourceLocal->listOfInfectedPeople = realloc(sourceLocal->listOfInfectedPeople, sizeof(Connection) * sourceLocal->numberOfInfectedPeople);
+    } else {
+        destinationLocal->listOfHealthyPeople = realloc(destinationLocal->listOfHealthyPeople, sizeof(Connection) * (destinationLocal->numberOfHealthyPeople + 1));
+        destinationLocal->listOfHealthyPeople[destinationLocal->numberOfHealthyPeople] = sourceLocal->listOfHealthyPeople[indexOfPerson];
+
+        for (int i = 0; i < sourceLocal->numberOfHealthyPeople; i++)
+            sourceLocal->listOfHealthyPeople[i] = sourceLocal->listOfHealthyPeople[i + 1];
+
+        destinationLocal->numberOfHealthyPeople++;
+        sourceLocal->numberOfHealthyPeople--;
+
+        sourceLocal->listOfHealthyPeople = realloc(sourceLocal->listOfHealthyPeople, sizeof(Connection) * sourceLocal->numberOfHealthyPeople);
+    }
+    destinationLocal->numberOfPeople++;
+    sourceLocal->numberOfPeople--;
+}
+
+void movePersons(Propagation_Model *propagationModel, int numberOfPeople, int indexOfSourceLocal, int destinationLocationIndex) {
+    if (indexOfSourceLocal == -1 || destinationLocationIndex == -1) {
+        puts("O id do local destino ou do local origem nao existe.");
+        return;
+    }
+
+    localsSmartList *sourceLocal = &propagationModel->spaceList->localsSmartList[indexOfSourceLocal];
+    localsSmartList *destinationLocal = &propagationModel->spaceList->localsSmartList[destinationLocationIndex];
+
+    if (destinationLocal->numberOfPeople + numberOfPeople > destinationLocal->local.capacity) {
+        puts("Numero de pessoas a transferir excede a capacidade maxima do local");
+        printf("O local %i aceita apenas %i pessoas\n", destinationLocal->local.id, destinationLocal->local.capacity - destinationLocal->numberOfPeople);
+        return;
+    }
+
+    if (destinationLocal->numberOfPeople + numberOfPeople > destinationLocal->local.capacity) {
+        puts("Numere de pessoas superior a populacao existente no espaco.");
+        printf("O local %i contem apenas %i pessoas\n", destinationLocal->local.id, destinationLocal->numberOfPeople);
+        return;
+    }
+
+    for (int i = 0; i < numberOfPeople; i++) {
+        int isSick = 0;
+        int indexOfPerson = intUniformRnd(0,sourceLocal->numberOfPeople - 1);
+        int indexOfPersonByState;
+
+        if(indexOfPerson < sourceLocal->numberOfInfectedPeople){
+            indexOfPersonByState = indexOfPerson;
+            isSick = 1;
+        }
+        else {
+            indexOfPersonByState = indexOfPerson - sourceLocal->numberOfHealthyPeople - 1;
+        }
+
+        addPersonToLocal(sourceLocal, destinationLocal, indexOfPersonByState, isSick);
+    }
+
 }

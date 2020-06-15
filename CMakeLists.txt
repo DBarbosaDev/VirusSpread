@@ -13,5 +13,7 @@ add_executable(
         core/models/personVitalModel.h
         core/models/propagationModel.c
         core/models/propagationModel.h
-        helpers/feedbackMessages.c
-        helpers/feedbackMessages.h helpers/validations.c helpers/validations.h)
+        helpers/validations.c
+        helpers/validations.h
+        core/builders/historicBuilder.c
+        core/builders/historicBuilder.h)
